@@ -17,7 +17,8 @@ const userA = document.getElementById("user-nav");
 const guestA = document.getElementById("guest-nav");
 
 page(decorationContext);
-page("/softuni-quiz/", homeView);
+page.redirect("/softuni-quiz", "/");
+page("/", homeView);
 page("/login", loginView);
 page("/register", registerView);
 page("/logout", logout);
