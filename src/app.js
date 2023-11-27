@@ -1,6 +1,6 @@
 import page from "../page/page.mjs";
 import { render } from "../lit-html/lit-html.js";
-import { userService } from "./userService.js";
+import { userService } from "./services/userService.js";
 import { userHelper } from "./userHelper.js";
 import { loginView } from "./views/loginView.js";
 import { registerView } from "./views/registerView.js";
@@ -11,12 +11,14 @@ import { editView } from "./views/quizEditorView.js";
 import { resultView } from "./views/quizResultView.js";
 import { homeView } from "./views/homeView.js";
 import { profileView } from "./views/profileView.js";
+import { loaderMiddleware } from "./middlewares/loaderMiddleware.js";
 
 const root = document.getElementById("content");
 const userA = document.getElementById("user-nav");
 const guestA = document.getElementById("guest-nav");
 
 page(decorationContext);
+page(loaderMiddleware);
 page.redirect("/softuni-quiz", "/");
 page("/", homeView);
 page("/login", loginView);
@@ -57,10 +59,24 @@ function goTo(path) {
   page.redirect(path);
 }
 
+const x = document.getElementById("snackbar");
+function notify(message) {
+  // Get the snackbar DIV
+  x.innerText = message;
+  // Add the "show" class to DIV
+  x.className = "show";
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(function () {
+    x.className = x.className.replace("show", "");
+  }, 3000);
+}
+
 function decorationContext(ctx, next) {
   ctx.render = renderer;
   ctx.updateNav = updateNav;
   ctx.goTo = goTo;
+  ctx.notify = notify;
 
   next();
 }
