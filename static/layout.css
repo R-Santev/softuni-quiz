@@ -28,7 +28,7 @@ body {
 #titlebar {
     margin: auto;
     height: 128px;
-    background-image: url("/assets/header.png");
+    background-image: url("./../assets/header.png");
     position: relative;
 }
 
